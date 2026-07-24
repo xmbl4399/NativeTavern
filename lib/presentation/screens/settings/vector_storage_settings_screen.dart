@@ -34,8 +34,8 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
         children: [
           // Enable toggle
           SwitchListTile(
-            title: const Text('Enable RAG'),
-            subtitle: const Text('Retrieval-Augmented Generation'),
+            title: const Text('启用RAG'),
+            subtitle: const Text('检索增强生成'),
             value: settings.enabled,
             onChanged: (value) {
               ref.read(vectorStorageSettingsProvider.notifier).setEnabled(value);
@@ -67,7 +67,7 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
           
           // Top K slider
           ListTile(
-            title: const Text('Top K Results'),
+            title: const Text('Top K 结果'),
             subtitle: Text('Return top ${settings.topK} most similar documents'),
             trailing: SizedBox(
               width: 150,
@@ -195,7 +195,7 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Vector Storage Help'),
+        title: const Text('向量存储帮助'),
         content: SingleChildScrollView(
           child: Text(service.getHelpText()),
         ),
@@ -217,7 +217,7 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Create Collection'),
+        title: const Text('创建集合'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -266,7 +266,7 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Collection'),
+        title: const Text('删除集合'),
         content: const Text('Are you sure you want to delete this collection? This cannot be undone.'),
         actions: [
           TextButton(
@@ -309,7 +309,7 @@ class VectorStorageSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Import Collection'),
+        title: const Text('导入集合'),
         content: TextField(
           controller: controller,
           decoration: const InputDecoration(
@@ -521,7 +521,7 @@ class _CollectionDetails extends ConsumerWidget {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.add, size: 18),
-                    label: const Text('Add Document'),
+                    label: const Text('添加文档'),
                     onPressed: () => _showAddDocumentDialog(context, ref),
                   ),
                 ),

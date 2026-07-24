@@ -242,7 +242,7 @@ class _QuickReplyTile extends StatelessWidget {
           children: [
             if (reply.autoSend)
               Tooltip(
-                message: 'Auto-send',
+                message: '自动发送',
                 child: Icon(
                   Icons.send,
                   size: 16,
@@ -335,7 +335,7 @@ class _QuickReplyEditDialogState extends State<_QuickReplyEditDialog> {
             TextField(
               controller: _labelController,
               decoration: const InputDecoration(
-                labelText: 'Button Label',
+                labelText: '按钮标签',
                 hintText: 'e.g., Yes, Continue, Think...',
                 border: OutlineInputBorder(),
               ),
@@ -345,9 +345,9 @@ class _QuickReplyEditDialogState extends State<_QuickReplyEditDialog> {
             TextField(
               controller: _messageController,
               decoration: const InputDecoration(
-                labelText: 'Message',
+                labelText: '消息',
                 hintText: 'Leave empty for continue action',
-                helperText: 'Supports macros like {{user}}, {{char}}',
+                helperText: '支持 {{user}}、{{char}} 等宏',
                 border: OutlineInputBorder(),
               ),
               maxLines: 3,

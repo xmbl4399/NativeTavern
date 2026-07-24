@@ -31,7 +31,7 @@ class SettingsScreen extends ConsumerWidget {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.language),
-                    label: const Text('Official Website'),
+                    label: const Text('官方网站'),
                     onPressed: () => launchUrl(
                       Uri.parse('https://nativetavern.com'),
                       mode: LaunchMode.externalApplication,
@@ -79,7 +79,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           
           const Divider(height: 32),
-          _buildSectionHeader(context, 'Multimedia'),
+          _buildSectionHeader(context, '多媒体'),
           ListTile(
             leading: const Icon(Icons.record_voice_over),
             title: Text(l10n.tts),

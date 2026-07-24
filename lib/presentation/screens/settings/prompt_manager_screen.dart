@@ -465,7 +465,7 @@ class PromptManagerScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'What is the Prompt Manager?',
+                '什么是提示词管理器？',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
@@ -475,7 +475,7 @@ class PromptManagerScreen extends ConsumerWidget {
               ),
               SizedBox(height: 16),
               Text(
-                'Section Types:',
+                '段落类型：',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
@@ -490,7 +490,7 @@ class PromptManagerScreen extends ConsumerWidget {
               Text('• Post-History: Instructions after chat'),
               SizedBox(height: 16),
               Text(
-                'Tips:',
+                '提示：',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
@@ -518,7 +518,7 @@ class PromptManagerScreen extends ConsumerWidget {
 
     final displayName = section.isCustom ? section.name : PromptSection.getDisplayName(section.type);
     final description = section.isCustom
-        ? 'Custom prompt from imported preset'
+        ? '从导入预设中获取的自定义提示词'
         : PromptSection.getDescription(section.type);
 
     showDialog(
@@ -551,7 +551,7 @@ class PromptManagerScreen extends ConsumerWidget {
                   TextField(
                     controller: nameController,
                     decoration: const InputDecoration(
-                      labelText: 'Prompt Name',
+                      labelText: '提示词名称',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -603,7 +603,7 @@ class PromptManagerScreen extends ConsumerWidget {
                     minLines: 5,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Enter prompt content...',
+                      hintText: '输入提示词内容...',
                     ),
                   ),
                 ),
@@ -618,7 +618,7 @@ class PromptManagerScreen extends ConsumerWidget {
                 // Reset to default
                 contentController.text = PromptSection.getDefaultContent(section.type);
               },
-              child: const Text('Reset to Default'),
+              child: const Text('重置为默认'),
             ),
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -783,7 +783,7 @@ class _PromptSectionTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  'Custom',
+                  '自定义',
                   style: TextStyle(
                     fontSize: 10,
                     color: section.enabled ? AppTheme.accentColor : AppTheme.textMuted,

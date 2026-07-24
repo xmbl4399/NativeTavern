@@ -76,24 +76,24 @@ class _TokenizerSettingsScreenState extends ConsumerState<TokenizerSettingsScree
           const SizedBox(height: 16),
 
           SwitchListTile(
-            title: const Text('Show Token Count'),
-            subtitle: const Text('Display token count in chat input'),
+            title: const Text('显示Token计数'),
+            subtitle: const Text('在聊天输入框中显示Token计数'),
             value: settings.showTokenCount,
             onChanged: (value) {
               ref.read(tokenizerSettingsProvider.notifier).setShowTokenCount(value);
             },
           ),
           SwitchListTile(
-            title: const Text('Show Token Visualization'),
-            subtitle: const Text('Highlight individual tokens'),
+            title: const Text('显示Token可视化'),
+            subtitle: const Text('高亮显示各个Token'),
             value: settings.showTokenVisualization,
             onChanged: (value) {
               ref.read(tokenizerSettingsProvider.notifier).setShowTokenVisualization(value);
             },
           ),
           SwitchListTile(
-            title: const Text('Cache Results'),
-            subtitle: const Text('Cache tokenization for performance'),
+            title: const Text('缓存结果'),
+            subtitle: const Text('缓存Token化结果以提升性能'),
             value: settings.cacheResults,
             onChanged: (value) {
               ref.read(tokenizerSettingsProvider.notifier).setCacheResults(value);
@@ -103,7 +103,7 @@ class _TokenizerSettingsScreenState extends ConsumerState<TokenizerSettingsScree
           const Divider(height: 32),
 
           // Visualization section
-          _buildSectionHeader(context, 'Token Visualization'),
+          _buildSectionHeader(context, 'Token可视化'),
           const SizedBox(height: 16),
           
           // Input text field
@@ -156,7 +156,7 @@ class _TokenizerSettingsScreenState extends ConsumerState<TokenizerSettingsScree
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Tokenizer Help'),
+        title: const Text('Token化帮助'),
         content: SingleChildScrollView(
           child: Text(service.getHelpText()),
         ),
@@ -195,7 +195,7 @@ class _QuickEstimate extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Quick Estimate'),
+                  const Text('快速估算'),
                   Text(
                     '~$estimate tokens',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(

@@ -272,7 +272,7 @@ class STTSettingsScreen extends ConsumerWidget {
             children: [
               const ListTile(
                 leading: Icon(Icons.info_outline, color: AppTheme.accentColor),
-                title: Text('About STT'),
+                title: Text('关于STT'),
                 subtitle: Text(
                   'Speech-to-Text allows you to dictate messages using your voice. '
                   'Tap the microphone button in the chat input to start speaking.',
@@ -281,7 +281,7 @@ class STTSettingsScreen extends ConsumerWidget {
               if (settings.provider == STTProvider.system)
                 const ListTile(
                   leading: Icon(Icons.phone_android, color: AppTheme.textMuted),
-                  title: Text('System STT'),
+                  title: Text('系统STT'),
                   subtitle: Text(
                     'Using your device\'s built-in speech recognition. '
                     'Accuracy depends on your system settings.',

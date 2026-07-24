@@ -210,7 +210,7 @@ class RegexSettingsScreen extends ConsumerWidget {
             children: [
               const ListTile(
                 leading: Icon(Icons.info_outline, color: AppTheme.accentColor),
-                title: Text('About Regex Scripts'),
+                title: Text('关于正则脚本'),
                 subtitle: Text(
                   'Regex scripts allow you to find and replace text patterns in messages. '
                   'Use capture groups (\$1, \$2) in replacements.',
@@ -218,7 +218,7 @@ class RegexSettingsScreen extends ConsumerWidget {
               ),
               const ListTile(
                 leading: Icon(Icons.code, color: AppTheme.textMuted),
-                title: Text('Pattern Format'),
+                title: Text('模式格式'),
                 subtitle: Text(
                   'Use /pattern/flags format (e.g., /hello/gi) or plain patterns. '
                   'Flags: i=case-insensitive, m=multiline, s=dotall',
@@ -581,7 +581,7 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                     TextField(
                       controller: _nameController,
                       decoration: const InputDecoration(
-                        labelText: 'Script Name',
+                        labelText: '脚本名称',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -589,7 +589,7 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                     TextField(
                       controller: _descriptionController,
                       decoration: const InputDecoration(
-                        labelText: 'Description (optional)',
+                        labelText: '描述（可选）',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -597,7 +597,7 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                     TextField(
                       controller: _findController,
                       decoration: const InputDecoration(
-                        labelText: 'Find Pattern',
+                        labelText: '查找模式',
                         hintText: '/pattern/flags or plain pattern',
                         border: OutlineInputBorder(),
                       ),
@@ -607,7 +607,7 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                     TextField(
                       controller: _replaceController,
                       decoration: const InputDecoration(
-                        labelText: 'Replace With',
+                        labelText: '替换为',
                         hintText: r'Use $1, $2 for capture groups',
                         border: OutlineInputBorder(),
                       ),
@@ -615,7 +615,7 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Apply To',
+                      '应用于',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
@@ -644,19 +644,19 @@ class _RegexScriptEditorState extends State<_RegexScriptEditor> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SwitchListTile(
-                      title: const Text('Markdown Only'),
+                      title: const Text('仅Markdown'),
                       subtitle: const Text('Only apply during markdown rendering'),
                       value: _markdownOnly,
                       onChanged: (value) => setState(() => _markdownOnly = value),
                     ),
                     SwitchListTile(
-                      title: const Text('Prompt Only'),
+                      title: const Text('仅提示词'),
                       subtitle: const Text('Only apply during prompt generation'),
                       value: _promptOnly,
                       onChanged: (value) => setState(() => _promptOnly = value),
                     ),
                     SwitchListTile(
-                      title: const Text('Run on Edit'),
+                      title: const Text('编辑时运行'),
                       subtitle: const Text('Apply when editing messages'),
                       value: _runOnEdit,
                       onChanged: (value) => setState(() => _runOnEdit = value),

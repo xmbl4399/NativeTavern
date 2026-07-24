@@ -33,7 +33,7 @@ class VariablesSettingsScreen extends ConsumerWidget {
                 value: 'clear_global',
                 child: ListTile(
                   leading: Icon(Icons.delete_sweep),
-                  title: Text('Clear Global Variables'),
+                  title: Text('清除全局变量'),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
@@ -42,7 +42,7 @@ class VariablesSettingsScreen extends ConsumerWidget {
                   value: 'clear_local',
                   child: ListTile(
                     leading: Icon(Icons.delete_sweep),
-                    title: Text('Clear Local Variables'),
+                    title: Text('清除本地变量'),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
@@ -59,7 +59,7 @@ class VariablesSettingsScreen extends ConsumerWidget {
             children: [
               const ListTile(
                 leading: Icon(Icons.info_outline, color: AppTheme.accentColor),
-                title: Text('Variable System'),
+                title: Text('变量系统'),
                 subtitle: Text(
                   'Variables store values that can be used in macros. '
                   'Global variables persist across all chats, while local variables are per-chat.',
@@ -67,7 +67,7 @@ class VariablesSettingsScreen extends ConsumerWidget {
               ),
               const ListTile(
                 leading: Icon(Icons.code, color: AppTheme.textMuted),
-                title: Text('Macro Usage'),
+                title: Text('宏使用'),
                 subtitle: Text(
                   '{{getvar::name}} - Get local variable\n'
                   '{{setvar::name::value}} - Set local variable\n'

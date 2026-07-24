@@ -18,7 +18,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expression Sprites'),
+        title: const Text('表情精灵'),
         actions: [
           IconButton(
             icon: const Icon(Icons.restore),
@@ -40,7 +40,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
             title: 'General',
             children: [
               SwitchListTile(
-                title: const Text('Enable Sprites'),
+                title: const Text('启用表情精灵'),
                 subtitle: const Text('Show character expression images in chat'),
                 value: settings.enabled,
                 onChanged: (value) {
@@ -58,7 +58,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
             children: [
               // Size slider
               ListTile(
-                title: const Text('Sprite Size'),
+                title: const Text('精灵大小'),
                 subtitle: Slider(
                   value: settings.size,
                   min: 50,
@@ -79,7 +79,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
 
               // Position dropdown
               ListTile(
-                title: const Text('Position'),
+                title: const Text('位置'),
                 subtitle: const Text('Where to display sprites'),
                 trailing: DropdownButton<SpritePosition>(
                   value: settings.position,
@@ -101,7 +101,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
 
               // Opacity slider
               ListTile(
-                title: const Text('Opacity'),
+                title: const Text('不透明度'),
                 subtitle: Slider(
                   value: settings.opacity,
                   min: 0.1,
@@ -129,7 +129,7 @@ class SpriteSettingsScreen extends ConsumerWidget {
             title: 'Animation',
             children: [
               SwitchListTile(
-                title: const Text('Animate Transitions'),
+                title: const Text('过渡动画'),
                 subtitle: const Text('Smooth fade when sprite changes'),
                 value: settings.animateTransitions,
                 onChanged: settings.enabled
@@ -292,7 +292,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
                 value: 'delete_all',
                 child: ListTile(
                   leading: Icon(Icons.delete_sweep, color: Colors.red),
-                  title: Text('Delete All Sprites'),
+                  title: Text('删除所有表情精灵'),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
@@ -394,7 +394,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'No sprites yet',
+                  '暂无表情精灵',
                   style: TextStyle(
                     fontSize: 18,
                     color: AppTheme.textMuted,
@@ -402,7 +402,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Add expression images for this character',
+                  '为此角色添加表情图片',
                   style: TextStyle(
                     fontSize: 14,
                     color: AppTheme.textMuted,
@@ -549,7 +549,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Sprite'),
+        title: const Text('删除表情精灵'),
         content: Text('Delete the ${sprite.emotion} sprite?'),
         actions: [
           TextButton(
@@ -574,7 +574,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete All Sprites'),
+        title: const Text('删除所有表情精灵'),
         content: const Text(
           'Are you sure you want to delete all sprites for this character? '
           'This cannot be undone.',
@@ -603,7 +603,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Import Sprites'),
+        title: const Text('导入表情精灵'),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -618,7 +618,7 @@ class _CharacterSpritesScreenState extends ConsumerState<CharacterSpritesScreen>
             Text('• neutral.png, default.jpg', style: TextStyle(fontSize: 12)),
             SizedBox(height: 12),
             Text(
-              'Supported formats: PNG, JPG, GIF, WebP',
+              '支持的格式：PNG、JPG、GIF、WebP',
               style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
             ),
           ],

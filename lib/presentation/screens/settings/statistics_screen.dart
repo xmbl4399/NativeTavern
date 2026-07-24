@@ -15,7 +15,7 @@ class StatisticsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(chatId != null ? 'Chat Statistics' : 'App Statistics'),
+        title: Text(chatId != null ? '聊天统计' : '应用统计'),
         actions: [
           if (chatId == null)
             IconButton(
@@ -35,7 +35,7 @@ class StatisticsScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Reset Statistics'),
+        title: const Text('重置统计'),
         content: const Text(
           'Are you sure you want to reset all statistics? This cannot be undone.',
         ),
@@ -73,21 +73,21 @@ class _AppStatisticsView extends ConsumerWidget {
       children: [
         // Overview card
         _StatisticsCard(
-          title: 'Overview',
+          title: '概览',
           icon: Icons.dashboard,
           children: [
             _StatRow(
-              label: 'First Used',
+              label: '首次使用',
               value: stats.appFirstUsed != null
                   ? _formatDate(stats.appFirstUsed!)
                   : 'Unknown',
             ),
             _StatRow(
-              label: 'Total Characters',
+              label: '总角色数',
               value: summary.characterCount.toString(),
             ),
             _StatRow(
-              label: 'Total Chats',
+              label: '总对话数',
               value: stats.totalChats.toString(),
             ),
             _StatRow(
@@ -100,11 +100,11 @@ class _AppStatisticsView extends ConsumerWidget {
 
         // Messages card
         _StatisticsCard(
-          title: 'Messages',
+          title: '消息',
           icon: Icons.message,
           children: [
             _StatRow(
-              label: 'Total Messages',
+              label: '总消息数',
               value: _formatNumber(stats.totalMessages),
             ),
             _StatRow(
@@ -117,7 +117,7 @@ class _AppStatisticsView extends ConsumerWidget {
 
         // Tokens card
         _StatisticsCard(
-          title: 'Token Usage',
+          title: 'Token使用量',
           icon: Icons.token,
           children: [
             _StatRow(

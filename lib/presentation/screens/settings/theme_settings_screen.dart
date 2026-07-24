@@ -42,7 +42,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
           
           if (userThemes.isNotEmpty) ...[
             const SizedBox(height: 24),
-            _buildSectionHeader(context, 'Custom Themes'),
+            _buildSectionHeader(context, '自定义主题'),
             const SizedBox(height: 12),
             _buildThemeGrid(context, ref, userThemes, activeThemeId, isCustom: true),
           ],
@@ -237,7 +237,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Theme'),
+        title: const Text('删除主题'),
         content: Text('Are you sure you want to delete "${theme.name}"?'),
         actions: [
           TextButton(
@@ -443,7 +443,7 @@ class _ThemeEditorDialogState extends State<_ThemeEditorDialog> {
     final isEditing = widget.theme != null;
 
     return AlertDialog(
-      title: Text(isEditing ? 'Edit Theme' : 'Create Theme'),
+      title: Text(isEditing ? '编辑主题' : '创建主题'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -451,7 +451,7 @@ class _ThemeEditorDialogState extends State<_ThemeEditorDialog> {
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
-                labelText: 'Theme Name',
+                labelText: '主题名称',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -464,7 +464,7 @@ class _ThemeEditorDialogState extends State<_ThemeEditorDialog> {
             ),
             const SizedBox(height: 8),
             _ColorPickerTile(
-              label: 'Primary Color',
+              label: '主色',
               color: _primaryColor,
               onChanged: (color) => setState(() => _primaryColor = color),
             ),

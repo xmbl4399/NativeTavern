@@ -58,7 +58,7 @@ class TTSSettingsScreen extends ConsumerWidget {
                     : null,
               ),
               SwitchListTile(
-                title: const Text('Queue Messages'),
+                title: const Text('消息队列'),
                 subtitle: const Text('Queue multiple messages instead of interrupting'),
                 value: settings.queueMessages,
                 onChanged: settings.enabled
@@ -274,7 +274,7 @@ class TTSSettingsScreen extends ConsumerWidget {
             children: [
               const ListTile(
                 leading: Icon(Icons.info_outline, color: AppTheme.accentColor),
-                title: Text('About TTS'),
+                title: Text('关于TTS'),
                 subtitle: Text(
                   'Text-to-Speech allows you to hear messages read aloud. '
                   'You can configure different voices for different characters '
@@ -284,7 +284,7 @@ class TTSSettingsScreen extends ConsumerWidget {
               if (settings.provider == TTSProvider.system)
                 const ListTile(
                   leading: Icon(Icons.phone_android, color: AppTheme.textMuted),
-                  title: Text('System TTS'),
+                  title: Text('系统TTS'),
                   subtitle: Text(
                     'Using your device\'s built-in text-to-speech engine. '
                     'Available voices depend on your system settings.',

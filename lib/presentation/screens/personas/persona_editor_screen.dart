@@ -83,24 +83,24 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.persona == null ? 'Create Persona' : 'Edit Persona'),
+        title: Text(widget.persona == null ? '创建角色' : '编辑角色'),
         actions: [
           IconButton(
             icon: Icon(_isFavorite ? Icons.star : Icons.star_border),
-            tooltip: 'Favorite',
+            tooltip: '收藏',
             onPressed: () => setState(() => _isFavorite = !_isFavorite),
           ),
           IconButton(
             icon: const Icon(Icons.check),
-            tooltip: 'Save',
+            tooltip: '保存',
             onPressed: _isSaving ? null : _save,
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
-            Tab(text: 'Basic', icon: Icon(Icons.person)),
-            Tab(text: 'Advanced', icon: Icon(Icons.settings)),
+            Tab(text: '基本', icon: Icon(Icons.person)),
+            Tab(text: '高级', icon: Icon(Icons.settings)),
             Tab(text: 'Connections', icon: Icon(Icons.link)),
           ],
         ),
@@ -295,7 +295,7 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
               deleteIcon: const Icon(Icons.close, size: 18),
             )),
             ActionChip(
-              label: const Text('Add Tag'),
+              label: const Text('添加标签'),
               avatar: const Icon(Icons.add, size: 18),
               onPressed: _showAddTagDialog,
             ),
@@ -310,7 +310,7 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
     
     return lorebooksAsync.when(
       loading: () => const LinearProgressIndicator(),
-      error: (_, __) => const Text('Error loading lorebooks'),
+      error: (_, __) => const Text('加载知识库失败'),
       data: (lorebooks) {
         return DropdownButtonFormField<String?>(
           value: _lorebookId,
@@ -466,7 +466,7 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
           children: [
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Choose from Gallery'),
+              title: const Text('从相册选择'),
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromGallery();
@@ -474,7 +474,7 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
             ),
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: const Text('Take Photo'),
+              title: const Text('拍照'),
               onTap: () {
                 Navigator.pop(context);
                 _takePhoto();
@@ -483,7 +483,7 @@ class _PersonaEditorScreenState extends ConsumerState<PersonaEditorScreen> with 
             if (_avatarPath != null)
               ListTile(
                 leading: const Icon(Icons.delete, color: Colors.red),
-                title: const Text('Remove Avatar', style: TextStyle(color: Colors.red)),
+                title: const Text('移除头像', style: TextStyle(color: Colors.red)),
                 onTap: () {
                   Navigator.pop(context);
                   setState(() => _avatarPath = null);
@@ -770,7 +770,7 @@ class _AddConnectionDialogState extends ConsumerState<_AddConnectionDialog> {
     final charactersAsync = ref.watch(characterListProvider);
     return charactersAsync.when(
       loading: () => const CircularProgressIndicator(),
-      error: (_, __) => const Text('Error loading characters'),
+      error: (_, __) => const Text('加载角色失败'),
       data: (characters) => DropdownButtonFormField<String>(
         value: _selectedId,
         decoration: const InputDecoration(
@@ -790,7 +790,7 @@ class _AddConnectionDialogState extends ConsumerState<_AddConnectionDialog> {
     final groupsAsync = ref.watch(groupListProvider);
     return groupsAsync.when(
       loading: () => const CircularProgressIndicator(),
-      error: (_, __) => const Text('Error loading groups'),
+      error: (_, __) => const Text('加载分组失败'),
       data: (groups) => DropdownButtonFormField<String>(
         value: _selectedId,
         decoration: const InputDecoration(

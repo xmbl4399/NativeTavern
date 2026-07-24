@@ -131,9 +131,9 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           controller: _tabController,
           isScrollable: true,
           tabs: const [
-            Tab(text: 'Basic', icon: Icon(Icons.edit)),
-            Tab(text: 'Insertion', icon: Icon(Icons.settings)),
-            Tab(text: 'Filters', icon: Icon(Icons.filter_list)),
+            Tab(text: '基本', icon: Icon(Icons.edit)),
+            Tab(text: '插入', icon: Icon(Icons.settings)),
+            Tab(text: '过滤', icon: Icon(Icons.filter_list)),
             Tab(text: 'Advanced', icon: Icon(Icons.tune)),
           ],
         ),
@@ -159,7 +159,7 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           TextField(
             controller: _keysController,
             decoration: const InputDecoration(
-              labelText: 'Keywords (comma-separated)',
+              labelText: '关键词（逗号分隔）',
               hintText: 'dragon, magic, sword',
               border: OutlineInputBorder(),
               helperText: 'Entry activates when these keywords are found',
@@ -169,7 +169,7 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           TextField(
             controller: _secondaryKeysController,
             decoration: const InputDecoration(
-              labelText: 'Secondary Keys (optional)',
+              labelText: '辅助关键词（可选）',
               hintText: 'fire, ice',
               border: OutlineInputBorder(),
               helperText: 'Both primary and secondary must match for selective',
@@ -188,7 +188,7 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           TextField(
             controller: _contentController,
             decoration: const InputDecoration(
-              labelText: 'Content',
+              labelText: '内容',
               hintText: 'Context to inject when matches',
               border: OutlineInputBorder(),
               alignLabelWithHint: true,
@@ -197,14 +197,14 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           ),
           const SizedBox(height: 16),
           SwitchListTile(
-            title: const Text('Constant'),
-            subtitle: const Text('Always include in prompt'),
+            title: const Text('常量'),
+            subtitle: const Text('始终包含在提示词中'),
             value: _constant,
             onChanged: (v) => setState(() => _constant = v),
           ),
           SwitchListTile(
-            title: const Text('Selective'),
-            subtitle: const Text('Requires secondary key'),
+            title: const Text('选择性'),
+            subtitle: const Text('需要辅助关键词'),
             value: _selective,
             onChanged: (v) => setState(() => _selective = v),
           ),
@@ -296,25 +296,25 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SwitchListTile(
-            title: const Text('Case Sensitive'),
+            title: const Text('区分大小写'),
             subtitle: const Text('Match keywords with exact case'),
             value: _caseSensitive,
             onChanged: (v) => setState(() => _caseSensitive = v),
           ),
           SwitchListTile(
-            title: const Text('Match Whole Words'),
+            title: const Text('匹配完整单词'),
             subtitle: const Text('Only match complete words'),
             value: _matchWholeWords,
             onChanged: (v) => setState(() => _matchWholeWords = v),
           ),
           const Divider(height: 32),
           const Text(
-            'Recursion Control',
+            '递归控制',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           SwitchListTile(
-            title: const Text('Prevent Recursion'),
+            title: const Text('防止递归'),
             subtitle: const Text("Don't scan this entry's content"),
             value: _preventRecursion,
             onChanged: (v) => setState(() => _preventRecursion = v),
@@ -364,7 +364,7 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           ),
           const SizedBox(height: 16),
           SwitchListTile(
-            title: const Text('Use Group Scoring'),
+            title: const Text('使用分组评分'),
             value: _useGroupScoring,
             onChanged: (v) => setState(() => _useGroupScoring = v),
           ),
@@ -398,7 +398,7 @@ class _WorldInfoEntryEditorScreenState extends ConsumerState<WorldInfoEntryEdito
           ),
           const SizedBox(height: 8),
           SwitchListTile(
-            title: const Text('Use Probability'),
+            title: const Text('使用概率'),
             subtitle: const Text('Randomly activate based on probability'),
             value: _useProbability,
             onChanged: (v) => setState(() => _useProbability = v),

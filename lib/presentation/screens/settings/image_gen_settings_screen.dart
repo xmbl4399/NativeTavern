@@ -243,11 +243,11 @@ class ImageGenSettingsScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             _buildSection(
               context: context,
-              title: 'NovelAI Settings',
+              title: 'NovelAI 设置',
               children: [
                 SwitchListTile(
-                  title: const Text('Anlas Guard'),
-                  subtitle: const Text('Limit image size and steps to reduce costs'),
+                  title: const Text('Anlas 保护'),
+                  subtitle: const Text('限制图片大小和步数以降低成本'),
                   value: settings.novelaiAnlasGuard,
                   onChanged: settings.enabled
                       ? (value) {
@@ -257,7 +257,7 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                 ),
                 SwitchListTile(
                   title: const Text('SM (SMEA)'),
-                  subtitle: const Text('Enhanced sampling for better details'),
+                  subtitle: const Text('增强采样以获得更佳细节'),
                   value: settings.novelaiSm,
                   onChanged: settings.enabled
                       ? (value) {
@@ -268,7 +268,7 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                 if (settings.novelaiSm)
                   SwitchListTile(
                     title: const Text('SM DYN'),
-                    subtitle: const Text('Dynamic SMEA (more creative)'),
+                    subtitle: const Text('动态SMEA（更具创意）'),
                     value: settings.novelaiSmDyn,
                     onChanged: settings.enabled
                         ? (value) {
@@ -277,8 +277,8 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                         : null,
                   ),
                 SwitchListTile(
-                  title: const Text('Decrisper'),
-                  subtitle: const Text('Reduce over-saturation in images'),
+                  title: const Text('去锐化'),
+                  subtitle: const Text('减少图片过饱和'),
                   value: settings.novelaiDecrisper,
                   onChanged: settings.enabled
                       ? (value) {
@@ -287,8 +287,8 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                       : null,
                 ),
                 SwitchListTile(
-                  title: const Text('Variety+'),
-                  subtitle: const Text('Higher variety in generated images'),
+                  title: const Text('多样性+'),
+                  subtitle: const Text('生成图片的更高多样性'),
                   value: settings.novelaiVarietyBoost,
                   onChanged: settings.enabled
                       ? (value) {
@@ -322,8 +322,8 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                           }
                         : null,
                     items: const [
-                      DropdownMenuItem(value: 'vivid', child: Text('Vivid')),
-                      DropdownMenuItem(value: 'natural', child: Text('Natural')),
+                      DropdownMenuItem(value: 'vivid', child: Text('鲜艳')),
+                      DropdownMenuItem(value: 'natural', child: Text('自然')),
                     ],
                   ),
                 ),
@@ -342,8 +342,8 @@ class ImageGenSettingsScreen extends ConsumerWidget {
                           }
                         : null,
                     items: const [
-                      DropdownMenuItem(value: 'standard', child: Text('Standard')),
-                      DropdownMenuItem(value: 'hd', child: Text('HD')),
+                      DropdownMenuItem(value: 'standard', child: Text('标准')),
+                      DropdownMenuItem(value: 'hd', child: Text('高清')),
                     ],
                   ),
                 ),

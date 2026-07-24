@@ -51,6 +51,8 @@ dependencies:
   collection: ^1.18.0
   equatable: ^2.0.5
   
+  cupertino_icons: ^1.0.8
+
   # UI Components
   cached_network_image: ^3.3.0
   flutter_markdown: ^0.6.18

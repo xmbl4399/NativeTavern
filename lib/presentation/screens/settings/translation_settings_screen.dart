@@ -66,7 +66,7 @@ class TranslationSettingsScreen extends ConsumerWidget {
                     : null,
               ),
               SwitchListTile(
-                title: const Text('Show Original'),
+                title: const Text('显示原文'),
                 subtitle: const Text('Display original text alongside translation'),
                 value: settings.showOriginal,
                 onChanged: settings.enabled
@@ -214,7 +214,7 @@ class TranslationSettingsScreen extends ConsumerWidget {
             children: [
               const ListTile(
                 leading: Icon(Icons.info_outline, color: AppTheme.accentColor),
-                title: Text('About Translation'),
+                title: Text('关于翻译'),
                 subtitle: Text(
                   'Translation allows you to communicate in different languages. '
                   'Messages can be automatically translated or translated on demand.',
@@ -223,7 +223,7 @@ class TranslationSettingsScreen extends ConsumerWidget {
               if (settings.provider == TranslationProvider.google)
                 const ListTile(
                   leading: Icon(Icons.cloud, color: AppTheme.textMuted),
-                  title: Text('Google Translate'),
+                  title: Text('Google翻译'),
                   subtitle: Text(
                     'Uses Google Cloud Translation API. '
                     'Requires an API key from Google Cloud Console.',

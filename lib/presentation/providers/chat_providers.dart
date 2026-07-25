@@ -1209,10 +1209,47 @@ class ActiveChatNotifier extends StateNotifier<ActiveChatState> {
     }
     print('=== End Context Messages ===');
 
+
+    // Debug: print the final prompt being sent
+    debugPrint('\u{1F4E4} ===== FINAL PROMPT TO LLM =====');
+    for (final msg in messages) {
+      final role = msg['role'];
+      final c = msg['content'];
+      if (c is String) {
+        debugPrint('  [${role}] ${c.length > 200 ? c.substring(0, 200) + "..." : c}');
+      } else {
+        debugPrint('  [${role}] (complex content)');
+      }
+    }
+    debugPrint('\u{1F4E4} ===== END PROMPT =====');
+
+    // Prefix caching: merge leading system messages for better API cache hit rate
+    if (llmConfig.prefixCaching && messages.isNotEmpty) {
+      final mergedContent = StringBuffer();
+      int systemCount = 0;
+      while (systemCount < messages.length && messages[systemCount]['role'] == 'system') {
+        final msg = messages[systemCount];
+        final content = msg['content'];
+        if (content is String && content.isNotEmpty) {
+          if (mergedContent.isNotEmpty) {
+            mergedContent.write('\n\n');
+          }
+          mergedContent.write(content);
+        }
+        systemCount++;
+      }
+      if (systemCount > 0) {
+        final firstMsg = Map<String, dynamic>.from(messages[0]);
+        firstMsg['content'] = mergedContent.toString();
+        messages.removeRange(0, systemCount);
+        messages.insert(0, firstMsg);
+        debugPrint('📌 Prefix caching: merged $systemCount system messages into 1');
+      }
+    }
+
     return messages;
   }
 
-  /// Build messages for a single prompt section
   Future<List<Map<String, dynamic>>> _buildSectionMessages(
     PromptSection section,
     Character? character,

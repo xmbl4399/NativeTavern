@@ -225,6 +225,7 @@ class LLMConfig {
         seed: json['seed'] as int? ?? -1,
         autoSummarizeEnabled: json['autoSummarizeEnabled'] as bool? ?? true,
         autoSummarizeThreshold: (json['autoSummarizeThreshold'] as num?)?.toDouble() ?? 0.8,
+        prefixCaching: json['prefixCaching'] as bool? ?? true,
       );
 }
 

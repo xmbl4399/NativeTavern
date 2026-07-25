@@ -71,6 +71,9 @@ class GenerationSettings with _$GenerationSettings {
     
     // Additional parameters for specific providers
     @Default({}) Map<String, dynamic> extra,
+    
+    // Cache optimization
+    @Default(false) bool prefixCaching,
   }) = _GenerationSettings;
 
   factory GenerationSettings.fromJson(Map<String, dynamic> json) => _$GenerationSettingsFromJson(json);

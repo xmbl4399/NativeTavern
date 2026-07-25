@@ -111,6 +111,7 @@ class QuickReplyConfig {
           message: 'Okay',
           order: 3,
           autoSend: true,
+          enabled: false,
         ),
         QuickReply(
           id: 'describe',
@@ -118,6 +119,7 @@ class QuickReplyConfig {
           message: '*{{user}} looks around, taking in the surroundings*',
           order: 4,
           autoSend: true,
+          enabled: false,
         ),
         QuickReply(
           id: 'think',
@@ -125,6 +127,7 @@ class QuickReplyConfig {
           message: '*{{user}} pauses to think*',
           order: 5,
           autoSend: true,
+          enabled: false,
         ),
       ],
       showQuickReplies: true,

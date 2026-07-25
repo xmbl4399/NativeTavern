@@ -335,6 +335,11 @@ class LLMConfigNotifier extends StateNotifier<LLMConfig> {
     _saveConfig();
   }
 
+  void updatePrefixCaching(bool enabled) {
+    state = state.copyWith(prefixCaching: enabled);
+    _saveConfig();
+  }
+
   // Advanced sampler methods
   void updateTypicalP(double value) {
     state = state.copyWith(typicalP: value);

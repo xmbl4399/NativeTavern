@@ -429,7 +429,9 @@ mixin _$GenerationSettings {
   double get autoSummarizeThreshold =>
       throw _privateConstructorUsedError; // Trigger at 80% of context
 // Additional parameters for specific providers
-  Map<String, dynamic> get extra => throw _privateConstructorUsedError;
+  Map<String, dynamic> get extra =>
+      throw _privateConstructorUsedError; // Cache optimization
+  bool get prefixCaching => throw _privateConstructorUsedError;
 
   /// Serializes this GenerationSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -463,7 +465,8 @@ abstract class $GenerationSettingsCopyWith<$Res> {
       int? seed,
       bool autoSummarizeEnabled,
       double autoSummarizeThreshold,
-      Map<String, dynamic> extra});
+      Map<String, dynamic> extra,
+      bool prefixCaching});
 }
 
 /// @nodoc
@@ -497,6 +500,7 @@ class _$GenerationSettingsCopyWithImpl<$Res, $Val extends GenerationSettings>
     Object? autoSummarizeEnabled = null,
     Object? autoSummarizeThreshold = null,
     Object? extra = null,
+    Object? prefixCaching = null,
   }) {
     return _then(_value.copyWith(
       temperature: null == temperature
@@ -563,6 +567,10 @@ class _$GenerationSettingsCopyWithImpl<$Res, $Val extends GenerationSettings>
           ? _value.extra
           : extra // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      prefixCaching: null == prefixCaching
+          ? _value.prefixCaching
+          : prefixCaching // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -591,7 +599,8 @@ abstract class _$$GenerationSettingsImplCopyWith<$Res>
       int? seed,
       bool autoSummarizeEnabled,
       double autoSummarizeThreshold,
-      Map<String, dynamic> extra});
+      Map<String, dynamic> extra,
+      bool prefixCaching});
 }
 
 /// @nodoc
@@ -623,6 +632,7 @@ class __$$GenerationSettingsImplCopyWithImpl<$Res>
     Object? autoSummarizeEnabled = null,
     Object? autoSummarizeThreshold = null,
     Object? extra = null,
+    Object? prefixCaching = null,
   }) {
     return _then(_$GenerationSettingsImpl(
       temperature: null == temperature
@@ -689,6 +699,10 @@ class __$$GenerationSettingsImplCopyWithImpl<$Res>
           ? _value._extra
           : extra // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      prefixCaching: null == prefixCaching
+          ? _value.prefixCaching
+          : prefixCaching // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -712,7 +726,8 @@ class _$GenerationSettingsImpl implements _GenerationSettings {
       this.seed,
       this.autoSummarizeEnabled = true,
       this.autoSummarizeThreshold = 0.8,
-      final Map<String, dynamic> extra = const {}})
+      final Map<String, dynamic> extra = const {},
+      this.prefixCaching = false})
       : _stopSequences = stopSequences,
         _extra = extra;
 
@@ -783,9 +798,14 @@ class _$GenerationSettingsImpl implements _GenerationSettings {
     return EqualUnmodifiableMapView(_extra);
   }
 
+// Cache optimization
+  @override
+  @JsonKey()
+  final bool prefixCaching;
+
   @override
   String toString() {
-    return 'GenerationSettings(temperature: $temperature, topP: $topP, topK: $topK, minP: $minP, typicalP: $typicalP, repetitionPenalty: $repetitionPenalty, frequencyPenalty: $frequencyPenalty, presencePenalty: $presencePenalty, maxTokens: $maxTokens, contextLength: $contextLength, stopSequences: $stopSequences, stream: $stream, seed: $seed, autoSummarizeEnabled: $autoSummarizeEnabled, autoSummarizeThreshold: $autoSummarizeThreshold, extra: $extra)';
+    return 'GenerationSettings(temperature: $temperature, topP: $topP, topK: $topK, minP: $minP, typicalP: $typicalP, repetitionPenalty: $repetitionPenalty, frequencyPenalty: $frequencyPenalty, presencePenalty: $presencePenalty, maxTokens: $maxTokens, contextLength: $contextLength, stopSequences: $stopSequences, stream: $stream, seed: $seed, autoSummarizeEnabled: $autoSummarizeEnabled, autoSummarizeThreshold: $autoSummarizeThreshold, extra: $extra, prefixCaching: $prefixCaching)';
   }
 
   @override
@@ -818,7 +838,9 @@ class _$GenerationSettingsImpl implements _GenerationSettings {
                 other.autoSummarizeEnabled == autoSummarizeEnabled) &&
             (identical(other.autoSummarizeThreshold, autoSummarizeThreshold) ||
                 other.autoSummarizeThreshold == autoSummarizeThreshold) &&
-            const DeepCollectionEquality().equals(other._extra, _extra));
+            const DeepCollectionEquality().equals(other._extra, _extra) &&
+            (identical(other.prefixCaching, prefixCaching) ||
+                other.prefixCaching == prefixCaching));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -840,7 +862,8 @@ class _$GenerationSettingsImpl implements _GenerationSettings {
       seed,
       autoSummarizeEnabled,
       autoSummarizeThreshold,
-      const DeepCollectionEquality().hash(_extra));
+      const DeepCollectionEquality().hash(_extra),
+      prefixCaching);
 
   /// Create a copy of GenerationSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -876,7 +899,8 @@ abstract class _GenerationSettings implements GenerationSettings {
       final int? seed,
       final bool autoSummarizeEnabled,
       final double autoSummarizeThreshold,
-      final Map<String, dynamic> extra}) = _$GenerationSettingsImpl;
+      final Map<String, dynamic> extra,
+      final bool prefixCaching}) = _$GenerationSettingsImpl;
 
   factory _GenerationSettings.fromJson(Map<String, dynamic> json) =
       _$GenerationSettingsImpl.fromJson;
@@ -913,7 +937,9 @@ abstract class _GenerationSettings implements GenerationSettings {
   double get autoSummarizeThreshold; // Trigger at 80% of context
 // Additional parameters for specific providers
   @override
-  Map<String, dynamic> get extra;
+  Map<String, dynamic> get extra; // Cache optimization
+  @override
+  bool get prefixCaching;
 
   /// Create a copy of GenerationSettings
   /// with the given fields replaced by the non-null parameter values.

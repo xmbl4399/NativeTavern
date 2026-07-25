@@ -75,6 +75,7 @@ _$GenerationSettingsImpl _$$GenerationSettingsImplFromJson(
       autoSummarizeThreshold:
           (json['autoSummarizeThreshold'] as num?)?.toDouble() ?? 0.8,
       extra: json['extra'] as Map<String, dynamic>? ?? const {},
+      prefixCaching: json['prefixCaching'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$GenerationSettingsImplToJson(
@@ -96,6 +97,7 @@ Map<String, dynamic> _$$GenerationSettingsImplToJson(
       'autoSummarizeEnabled': instance.autoSummarizeEnabled,
       'autoSummarizeThreshold': instance.autoSummarizeThreshold,
       'extra': instance.extra,
+      'prefixCaching': instance.prefixCaching,
     };
 
 _$LocalModelConfigImpl _$$LocalModelConfigImplFromJson(

@@ -14,6 +14,9 @@ import 'package:native_tavern/domain/services/url_import_service.dart';
 import 'package:native_tavern/presentation/providers/character_providers.dart';
 import 'package:native_tavern/presentation/theme/app_theme.dart';
 import 'package:native_tavern/l10n/generated/app_localizations.dart';
+import 'dart:convert';
+import 'package:native_tavern/domain/services/llm_service.dart';
+import 'package:native_tavern/presentation/providers/settings_providers.dart';
 
 /// Import service provider
 final importServiceProvider = Provider<ImportService>((ref) {
@@ -328,6 +331,7 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
               totalFiles: importState.totalFiles,
               processedFiles: importState.processedFiles,
               onImportAll: () => _importAllCharacters(context, ref),
+              onTranslateAndImportAll: () => _translateAndImportCharacters(context, ref),
             )
           : _FilePickerView(
               isLoading: importState.isLoading,
@@ -339,7 +343,189 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
     );
   }
 
-  Future<void> _importAllCharacters(BuildContext context, WidgetRef ref) async {
+  Future<void> _translateAndImportCharacters(BuildContext context, WidgetRef ref) async {
+    final importState = ref.read(importStateProvider);
+    if (!importState.hasResults) return;
+
+    var llmConfig = ref.read(llmConfigProvider);
+    final llmService = ref.read(llmServiceProvider);
+
+    // 等待 config 从数据库加载完成（第一次点击时 provider 还是默认的 claude）
+    if (llmConfig.provider == LLMProvider.claude && llmConfig.apiKey.isEmpty) {
+      for (int i = 0; i < 10; i++) {
+        await Future.delayed(const Duration(milliseconds: 200));
+        final retry = ref.read(llmConfigProvider);
+        if (retry.apiKey.isNotEmpty) {
+          llmConfig = retry; // 使用加载后的配置
+          break;
+        }
+      }
+      if (llmConfig.apiKey.isEmpty && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('转换失败: 未检测到 API Key，请先在 AI 配置中配置 API'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 4),
+          ),
+        );
+        return;
+      }
+    }
+
+    // Progress tracking
+    final progress = ValueNotifier<Map<String, dynamic>>({'p': 0.0, 's': '准备中...', 'e': null});
+
+    void setProg(double p, String s, [String? e]) {
+      progress.value = {'p': p, 's': s, 'e': e};
+    }
+
+    if (context.mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => AlertDialog(
+          title: const Row(
+            children: [
+              SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.5)),
+              SizedBox(width: 16),
+              Text('正在转换中文...'),
+            ],
+          ),
+          content: ValueListenableBuilder<Map<String, dynamic>>(
+            valueListenable: progress,
+            builder: (_, v, __) {
+              final p = v['p'] as double;
+              final s = v['s'] as String;
+              final e = v['e'] as String?;
+              return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const SizedBox(height: 8),
+                LinearProgressIndicator(value: p == 0.0 ? null : p),
+                const SizedBox(height: 12),
+                Text(s, style: const TextStyle(fontSize: 14)),
+                if (e != null) ...[
+                  const SizedBox(height: 8),
+                  Text(e, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                ],
+              ]);
+            },
+          ),
+        ),
+      );
+    }
+
+
+    int successCount = 0;
+    int errorCount = 0;
+
+    /// Batch translate all fields via LLM in one request
+    Future<Map<String, String>> _translateFields(Map<String, String> fields) async {
+      if (!llmConfig.apiKey.isNotEmpty) {
+        debugPrint('⚠️ No API key configured, skipping translation');
+        return fields;
+      }
+
+      setProg(0.3, '正在调用 LLM 批量翻译...');
+
+      // Build JSON input with all non-empty fields
+      final jsonParts = <String>[];
+      for (final key in fields.keys) {
+        if (fields[key]!.isEmpty) continue;
+        final escaped = fields[key]!.replaceAll('\\', '\\\\').replaceAll('"', '\\"').replaceAll('\n', '\\n');
+        jsonParts.add('  "' + key + '": "' + escaped + '"');
+      }
+      final inputJson = '{\n' + jsonParts.join(',\n') + '\n}';
+
+      final msgs = [
+        {'role': 'system', 'content': 'You are a translator. Translate character card JSON fields to Simplified Chinese. Keep all HTML tags, markdown, and formatting intact. Output ONLY a valid JSON object with the same keys containing the translated text. Do NOT add any explanations.'},
+        {'role': 'user', 'content': 'Translate this character card to Simplified Chinese. Preserve all HTML/markdown/formatting. Return ONLY a JSON object:\n\n' + inputJson},
+      ];
+
+      try {
+        final resp = await llmService.generateWithReasoning(msgs, llmConfig);
+        String raw = resp.content.trim();
+
+        // Extract JSON from response (handle markdown code blocks)
+        if (raw.contains('```')) {
+          raw = raw.split('```').firstWhere((s) => s.contains('{'), orElse: () => raw);
+        }
+        final jsonStart = raw.indexOf('{');
+        final jsonEnd = raw.lastIndexOf('}');
+        if (jsonStart < 0 || jsonEnd <= jsonStart) {
+          throw Exception('API returned invalid format (no JSON found)');
+        }
+        raw = raw.substring(jsonStart, jsonEnd + 1);
+
+        final translated = jsonDecode(raw) as Map<String, dynamic>;
+        final result = Map<String, String>.from(fields);
+        for (final key in result.keys) {
+          if (translated[key] != null) {
+            result[key] = translated[key] as String;
+          }
+        }
+        return result;
+      } catch (e) {
+        debugPrint('❌ LLM batch translation failed: ' + e.toString());
+        return fields; // fallback to original
+      }
+    }
+
+    for (final result in importState.results) {
+      if (result.character == null) continue;
+      try {
+        final orig = result.character!;
+        setProg(0, '正在翻译: ' + orig.name);
+
+        final fields = {
+          'description': orig.description,
+          'personality': orig.personality,
+          'scenario': orig.scenario,
+          'firstMessage': orig.firstMessage,
+          'exampleMessages': orig.exampleMessages,
+          'systemPrompt': orig.systemPrompt,
+          'postHistoryInstructions': orig.postHistoryInstructions,
+        };
+
+        final translated = await _translateFields(fields);
+
+        setProg(0.9, '正在导入...');
+        final translatedChar = orig.copyWith(
+          description: translated['description'] ?? orig.description,
+          personality: translated['personality'] ?? orig.personality,
+          scenario: translated['scenario'] ?? orig.scenario,
+          firstMessage: translated['firstMessage'] ?? orig.firstMessage,
+          exampleMessages: translated['exampleMessages'] ?? orig.exampleMessages,
+          systemPrompt: translated['systemPrompt'] ?? orig.systemPrompt,
+          postHistoryInstructions: translated['postHistoryInstructions'] ?? orig.postHistoryInstructions,
+        );
+
+        await ref.read(characterListProvider.notifier).addCharacter(translatedChar);
+        successCount++;
+      } catch (e) {
+        errorCount++;
+        debugPrint('❌ Translation import failed: ' + e.toString());
+        setProg(1, '导入失败', e.toString().length > 100 ? e.toString().substring(0, 100) : e.toString());
+      }
+    }
+
+    setProg(1.0, '完成!');
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('转换中文导入完成: ' + successCount.toString() + ' 成功, ' + errorCount.toString() + ' 失败'),
+          backgroundColor: errorCount > 0 ? Colors.orange : Colors.green,
+        ),
+      );
+      if (successCount > 0) {
+        ref.read(importStateProvider.notifier).clear();
+        context.pop();
+      }
+    }
+  }
+
+    Future<void> _importAllCharacters(BuildContext context, WidgetRef ref) async {
     final importState = ref.read(importStateProvider);
     if (!importState.hasResults) return;
 
@@ -816,6 +1002,7 @@ class _BatchImportResults extends StatelessWidget {
   final int totalFiles;
   final int processedFiles;
   final VoidCallback onImportAll;
+  final VoidCallback onTranslateAndImportAll;
 
   const _BatchImportResults({
     required this.results,
@@ -823,6 +1010,7 @@ class _BatchImportResults extends StatelessWidget {
     required this.totalFiles,
     required this.processedFiles,
     required this.onImportAll,
+    required this.onTranslateAndImportAll,
   });
 
   @override
@@ -880,6 +1068,20 @@ class _BatchImportResults extends StatelessWidget {
                       icon: const Icon(Icons.download),
                       label: Text('导入全部 ($successCount 个角色卡)'),
                       style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(0, 48),
+                      ),
+                    ),
+                  ),
+                if (successCount > 0)
+                  const SizedBox(height: 8),
+                if (successCount > 0)
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: onTranslateAndImportAll,
+                      icon: const Icon(Icons.translate),
+                      label: Text('转换中文导入 (' + successCount.toString() + ' 个角色卡)'),
+                      style: OutlinedButton.styleFrom(
                         minimumSize: const Size(0, 48),
                       ),
                     ),

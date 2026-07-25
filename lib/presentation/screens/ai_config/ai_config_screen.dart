@@ -124,6 +124,7 @@ class AIConfigScreen extends ConsumerWidget {
           const _ApiUrlTile(),
           const _ModelTile(),
           const _ConnectionTestTile(),
+          const _PrefixCachingTile(),
 
           const Divider(height: 32),
           _buildSectionHeader(context, AppLocalizations.of(context)!.generationSettings),
@@ -800,6 +801,29 @@ class _ConnectionTestTile extends ConsumerWidget {
       case ConnectionStatus.error:
         return state.message ?? l10n.connectionFailedSimple;
     }
+  }
+}
+
+
+
+/// Prefix Caching tile - optimizes prompt for API cache hit rate
+class _PrefixCachingTile extends ConsumerWidget {
+  const _PrefixCachingTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(llmConfigProvider);
+    final l10n = AppLocalizations.of(context)!;
+
+    return SwitchListTile(
+      secondary: const Icon(Icons.cached),
+      title: const Text('前缀缓存'),
+      subtitle: const Text('合并静态提示词为缓存前缀，降低 API 延迟与费用（DeepSeek/OpenAI）'),
+      value: config.prefixCaching,
+      onChanged: (value) {
+        ref.read(llmConfigProvider.notifier).updatePrefixCaching(value);
+      },
+    );
   }
 }
 

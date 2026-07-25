@@ -74,6 +74,9 @@ class LLMConfig {
   // Auto-summarization settings
   final bool autoSummarizeEnabled;
   final double autoSummarizeThreshold;
+  
+  // Cache optimization
+  final bool prefixCaching;
 
   const LLMConfig({
     required this.provider,
@@ -103,6 +106,7 @@ class LLMConfig {
     // Auto-summarization defaults
     this.autoSummarizeEnabled = true,
     this.autoSummarizeThreshold = 0.8,
+    this.prefixCaching = true,
   });
 
   LLMConfig copyWith({
@@ -131,6 +135,7 @@ class LLMConfig {
     int? seed,
     bool? autoSummarizeEnabled,
     double? autoSummarizeThreshold,
+    bool? prefixCaching,
   }) {
     return LLMConfig(
       provider: provider ?? this.provider,
@@ -158,6 +163,7 @@ class LLMConfig {
       seed: seed ?? this.seed,
       autoSummarizeEnabled: autoSummarizeEnabled ?? this.autoSummarizeEnabled,
       autoSummarizeThreshold: autoSummarizeThreshold ?? this.autoSummarizeThreshold,
+      prefixCaching: prefixCaching ?? this.prefixCaching,
     );
   }
 
@@ -187,6 +193,7 @@ class LLMConfig {
         'seed': seed,
         'autoSummarizeEnabled': autoSummarizeEnabled,
         'autoSummarizeThreshold': autoSummarizeThreshold,
+        'prefixCaching': prefixCaching,
       };
 
   factory LLMConfig.fromJson(Map<String, dynamic> json) => LLMConfig(
